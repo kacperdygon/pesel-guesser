@@ -5,13 +5,11 @@ defineProps<{
 </script>
 
 <template>
-  <div class="w-full h-4">
-    <div class="h-4 w-full overflow-hidden stripes rounded-lg">
-      <div
-        class="h-full w-full bg-gray-300 transition-all duration-300 origin-right"
-        :style="{ transform: 'scaleX(' + (100 - percentage) / 100 + ')' }"
-      ></div>
-    </div>
+  <div class="h-3 sm:h-4 w-full overflow-hidden stripes rounded-lg">
+    <div
+      class="h-full w-full bg-gray-300 transition-all duration-300 origin-right"
+      :style="{ transform: 'scaleX(' + (100 - percentage) / 100 + ')' }"
+    ></div>
   </div>
 </template>
 

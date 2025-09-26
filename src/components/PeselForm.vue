@@ -23,7 +23,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <h1 class="text-6xl">Pesel Guesser 😎</h1>
+  <h1 class="text-4xl sm:text-6xl">Pesel Guesser 😎</h1>
   <form
     class="flex flex-col gap-4 justify-center items-center text-xl"
     @submit.prevent="handleSubmit"

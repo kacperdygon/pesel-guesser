@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import PeselForm from './components/PeselForm.vue';
-import PeselDialog from './components/PeselDialog.vue';
+import LoadingDialog from './components/LoadingDialog.vue';
 import { getPesel } from './peselCalculator';
 import { ref, watch } from 'vue';
 import { useLoadingSteps, type LoadingStep } from './helpers/useLoadingSteps';
@@ -11,7 +11,7 @@ const pesel = ref<string>('');
 
 const lastFormData = ref<{ date: Date; isFemale: boolean } | null>(null);
 
-const peselDialogRef = ref<InstanceType<typeof PeselDialog> | null>(null);
+const peselDialogRef = ref<InstanceType<typeof LoadingDialog> | null>(null);
 
 function handleLoadResult(formData: { date: Date; isFemale: boolean }) {
   startLoading();
@@ -87,6 +87,6 @@ const { currentStep, loading, startLoading } = useLoadingSteps(loadingSteps);
       @wrong="lastFormData ? handleLoadResult(lastFormData) : null"
     />
     <PeselForm @submit="handleLoadResult" v-else />
-    <PeselDialog :step="currentStep" ref="peselDialogRef" :show="loading" />
+    <LoadingDialog :step="currentStep" ref="peselDialogRef" :show="loading" />
   </div>
 </template>
