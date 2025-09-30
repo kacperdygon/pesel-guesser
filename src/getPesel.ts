@@ -10,6 +10,9 @@ function getPeselChecksum(pesel: string): number {
 }
 
 export function getPesel(birthDate: Date, isFemale: boolean): string {
+  const specialMessage = checkForSpecialDateMessages(birthDate);
+  if (specialMessage) return specialMessage;
+
   let pesel = getPeselDatePart(birthDate);
 
   pesel += getPeselRandomPart(isFemale);
@@ -55,4 +58,10 @@ function getPeselRandomPart(isFemale: boolean): string {
   }
 
   return randomPart;
+}
+
+function checkForSpecialDateMessages(date: Date): string | null {
+  if (date.getFullYear() < 1800) return 'No way ur that old';
+
+  return null;
 }

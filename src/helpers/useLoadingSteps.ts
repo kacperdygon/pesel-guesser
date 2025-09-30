@@ -6,11 +6,11 @@ export interface LoadingStep {
   percentage: number;
 }
 
-export function useLoadingSteps(steps: LoadingStep[]) {
+export function useLoadingSteps() {
   const currentStep = ref<LoadingStep | null>(null);
   const loading = ref(false);
 
-  async function startLoading() {
+  async function startLoading(steps: LoadingStep[]) {
     loading.value = true;
     for (const step of steps) {
       currentStep.value = step;
@@ -19,8 +19,6 @@ export function useLoadingSteps(steps: LoadingStep[]) {
 
       currentStep.value = null;
     }
-
-    console.log('dxdd');
 
     loading.value = false;
   }

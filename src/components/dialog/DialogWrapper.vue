@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
-import type { LoadingStep } from '@/helpers/useLoadingSteps';
-import ProgressBar from './ProgressBar.vue';
 
 const props = defineProps<{
-  step: LoadingStep | null;
   show: boolean;
 }>();
 
@@ -26,11 +23,6 @@ onMounted(() => {
     ref="dialogRef"
     class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 min-h-48 w-128 p-8 rounded-lg"
   >
-    <div>
-      <h2 class="text-xl sm:text-3xl text-center mb-4">
-        {{ step?.message }}
-      </h2>
-      <ProgressBar :percentage="step ? step.percentage : 0" />
-    </div>
+    <slot />
   </dialog>
 </template>

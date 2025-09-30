@@ -9,12 +9,21 @@ const formData = ref<{
   isFemale: true,
 });
 
+const errorMessage = ref<string>('');
+
 function handleSubmit() {
-  if (formData.value.date)
+  if (formData.value.date && isDateValid(formData.value.date)) {
     emit('submit', {
       date: formData.value.date,
       isFemale: formData.value.isFemale,
     });
+  } else {
+    errorMessage.value = 'Enter a valid date dumbass';
+  }
+}
+
+function isDateValid(date: Date): boolean {
+  return date instanceof Date && !isNaN(date.getTime());
 }
 
 const emit = defineEmits<{
@@ -36,6 +45,7 @@ const emit = defineEmits<{
         @input="(e) => (formData.date = new Date((e.target as HTMLInputElement).value))"
       />
     </label>
+    <p class="text-red-500">{{ errorMessage }}</p>
     <div class="flex gap-4 items-center">
       <h3>Gender</h3>
       <div class="flex gap-2 text-xl flex-col">
