@@ -17,6 +17,7 @@ function onSubmit() {
   errorMessage.value = '';
   const store = useAppStore();
   store.pesel = peselInput.value;
+  store.isPeselConfirmed = true;
   store.setCurrentView('loading');
 }
 
@@ -27,7 +28,7 @@ const headerTextOptions = [
   'Stop clicking okay??',
   "This button doesn't do anything",
   'It was a lie all along',
-  'So a hint maybe??',
+  'Okay you win',
 ];
 </script>
 
@@ -37,6 +38,7 @@ const headerTextOptions = [
     class="p-2 rounded-lg outline-gray-400 outline-solid outline-1 focus:outline-blue-600 text-center text-xl"
     placeholder="Your pesel"
     v-model="peselInput"
+    @input="errorMessage = ''"
   />
 
   <p class="text-red-500 text-xl">{{ errorMessage }}</p>
@@ -44,10 +46,9 @@ const headerTextOptions = [
   <div class="flex w-full justify-center gap-4 items-center flex-col sm:flex-row">
     <button
       class="rounded-lg bg-red-600 p-4 sm:p-4 text-white text-xl cursor-pointer w-fit"
-      @click="headerTextIndex < headerTextOptions.length - 1 ? headerTextIndex++ : null"
-      v-if="headerTextIndex < headerTextOptions.length - 1"
+      @click="headerTextIndex < headerTextOptions.length - 1 ? headerTextIndex++ : useAppStore().setCurrentView('list')"
     >
-      No way💀🥀
+      {{ headerTextIndex < headerTextOptions.length - 1 ? 'No way💀🥀' : 'Take me to pesel list' }}
     </button>
 
     <button class="rounded-lg bg-blue-600 p-4 text-white text-xl cursor-pointer" @click="onSubmit">

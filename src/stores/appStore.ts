@@ -4,6 +4,8 @@ import PeselResultView from '@/views/peselResultView/PeselResultView.vue';
 import LoadingView from '@/views/loadingView/LoadingView.vue';
 import { computed, ref } from 'vue';
 import HintView from '@/views/hintView/HintView.vue';
+import PeselListView from '@/views/peselListView/PeselListView.vue';
+import PeselConfirmationView from '@/views/peselConfirmationView/PeselConfirmationView.vue';
 
 export interface FormData {
   date?: Date;
@@ -22,6 +24,10 @@ export const useAppStore = defineStore('app', () => {
         return PeselResultView;
       case 'hint':
         return HintView;
+      case 'list':
+        return PeselListView;
+      case 'confirm':
+        return PeselConfirmationView;
       default:
         return PeselFormView;
     }
@@ -33,11 +39,11 @@ export const useAppStore = defineStore('app', () => {
   }
 
   const pesel = ref<string>('');
+  const isPeselConfirmed = ref<boolean>(true);
 
   function setCurrentView(view: string) {
     currentViewString.value = view;
-    console.log('Current view set to:', view, currentView.value);
   }
 
-  return { currentView, setCurrentView, formData, setFormData, pesel };
+  return { currentView, setCurrentView, formData, setFormData, pesel, isPeselConfirmed: isPeselConfirmed };
 });

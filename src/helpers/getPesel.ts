@@ -8,7 +8,7 @@ export function getPeselChecksum(pesel: string): number {
     sum += weights[i] * parseInt(pesel[i], 10);
   }
 
-  return 10 - (sum % 10);
+  return (10 - (sum % 10)) % 10;
 }
 
 export function getPesel(formData: FormData): string {
@@ -66,4 +66,8 @@ function checkForSpecialDateMessages(date: Date): string | null {
   if (date.getFullYear() < 1800) return 'No way ur that old';
 
   return null;
+}
+
+export function rand11() {
+  return Array.from({length: 11}, () => Math.floor(Math.random() * 10)).join('');
 }
