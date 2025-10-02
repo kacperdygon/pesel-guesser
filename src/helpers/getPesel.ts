@@ -1,4 +1,6 @@
-function getPeselChecksum(pesel: string): number {
+import { type FormData } from '@/stores/appStore';
+
+export function getPeselChecksum(pesel: string): number {
   const weights = [1, 3, 7, 9, 1, 3, 7, 9, 1, 3];
   let sum = 0;
 
@@ -9,13 +11,13 @@ function getPeselChecksum(pesel: string): number {
   return 10 - (sum % 10);
 }
 
-export function getPesel(birthDate: Date, isFemale: boolean): string {
-  const specialMessage = checkForSpecialDateMessages(birthDate);
+export function getPesel(formData: FormData): string {
+  const specialMessage = checkForSpecialDateMessages(formData.date!);
   if (specialMessage) return specialMessage;
 
-  let pesel = getPeselDatePart(birthDate);
+  let pesel = getPeselDatePart(formData.date!);
 
-  pesel += getPeselRandomPart(isFemale);
+  pesel += getPeselRandomPart(formData.gender);
 
   pesel += getPeselChecksum(pesel).toString();
 
@@ -44,14 +46,14 @@ function getPeselDatePart(birthDate: Date): string {
   return peselDatePart;
 }
 
-function getPeselRandomPart(isFemale: boolean): string {
+function getPeselRandomPart(gender: 'man' | 'woman'): string {
   let randomPart = '';
 
   for (let i = 0; i < 3; i++) {
     randomPart += Math.floor(Math.random() * 10).toString();
   }
 
-  if (isFemale) {
+  if (gender === 'woman') {
     randomPart += (Math.floor(Math.random() * 5) * 2).toString();
   } else {
     randomPart += (Math.floor(Math.random() * 5) * 2 + 1).toString();

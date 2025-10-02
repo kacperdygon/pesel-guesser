@@ -1,12 +1,11 @@
 <script setup lang="ts">
-defineProps<{
-  pesel: string;
-}>();
+import { fireConfetti } from '@/helpers/fireConfetti';
+import { useAppStore } from '@/stores/appStore';
+import { onMounted } from 'vue';
 
-const emit = defineEmits<{
-  (e: 'return'): void;
-  (e: 'wrong'): void;
-}>();
+const { setCurrentView, pesel } = useAppStore();
+
+onMounted(fireConfetti);
 </script>
 
 <template>
@@ -19,14 +18,14 @@ const emit = defineEmits<{
     <div class="flex w-full justify-center gap-4 items-center flex-col sm:flex-row">
       <button
         class="rounded-lg bg-red-600 p-4 sm:p-4 text-white text-xl cursor-pointer w-fit"
-        @click="emit('wrong')"
+        @click="setCurrentView('hint')"
       >
         Not my pesel
       </button>
 
       <button
         class="rounded-lg bg-blue-600 p-4 sm:p-4 text-white text-xl cursor-pointer w-fit"
-        @click="emit('return')"
+        @click="setCurrentView('form')"
       >
         Return
       </button>

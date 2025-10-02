@@ -8,10 +8,10 @@ export interface LoadingStep {
 
 export function useLoadingSteps() {
   const currentStep = ref<LoadingStep | null>(null);
-  const loading = ref(false);
+  const isLoading = ref(false);
 
   async function startLoading(steps: LoadingStep[]) {
-    loading.value = true;
+    isLoading.value = true;
     for (const step of steps) {
       currentStep.value = step;
 
@@ -20,8 +20,8 @@ export function useLoadingSteps() {
       currentStep.value = null;
     }
 
-    loading.value = false;
+    isLoading.value = false;
   }
 
-  return { currentStep, loading, startLoading };
+  return { currentStep, isLoading, startLoading };
 }

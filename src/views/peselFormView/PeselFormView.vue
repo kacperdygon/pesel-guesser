@@ -1,22 +1,23 @@
 <script setup lang="ts">
+import { useAppStore } from '@/stores/appStore';
 import { ref } from 'vue';
+import { type FormData } from '@/stores/appStore';
+import { getPesel } from '@/helpers/getPesel';
 
-const formData = ref<{
-  date: Date | null;
-  isFemale: boolean;
-}>({
-  date: null,
-  isFemale: true,
+const formData = ref<FormData>({
+  date: undefined,
+  gender: 'man',
 });
 
 const errorMessage = ref<string>('');
 
 function handleSubmit() {
   if (formData.value.date && isDateValid(formData.value.date)) {
-    emit('submit', {
-      date: formData.value.date,
-      isFemale: formData.value.isFemale,
-    });
+    const store = useAppStore();
+
+    store.setCurrentView('loading');
+
+    store.pesel = getPesel(formData.value);
   } else {
     errorMessage.value = 'Enter a valid date dumbass';
   }
@@ -25,10 +26,6 @@ function handleSubmit() {
 function isDateValid(date: Date): boolean {
   return date instanceof Date && !isNaN(date.getTime());
 }
-
-const emit = defineEmits<{
-  (e: 'submit', data: { date: Date; isFemale: boolean }): void;
-}>();
 </script>
 
 <template>
@@ -50,12 +47,12 @@ const emit = defineEmits<{
       <h3>Gender</h3>
       <div class="flex gap-2 text-xl flex-col">
         <label>
-          <input type="radio" name="gender" :value="true" v-model="formData.isFemale" checked />
-          Woman
+          <input type="radio" name="gender" :value="'man'" v-model="formData.gender" checked />
+          Woman🤰🏿
         </label>
         <label>
-          <input type="radio" name="gender" :value="false" v-model="formData.isFemale" />
-          Man
+          <input type="radio" name="gender" :value="'woman'" v-model="formData.gender" />
+          Man🫃
         </label>
       </div>
     </div>
