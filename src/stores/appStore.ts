@@ -39,11 +39,18 @@ export const useAppStore = defineStore('app', () => {
   }
 
   const pesel = ref<string>('');
-  const isPeselConfirmed = ref<boolean>(true);
+  const isPeselConfirmed = ref<boolean>(false);
 
   function setCurrentView(view: string) {
     currentViewString.value = view;
   }
 
-  return { currentView, setCurrentView, formData, setFormData, pesel, isPeselConfirmed: isPeselConfirmed };
+  return {
+    currentView,
+    setCurrentView,
+    formData,
+    setFormData,
+    pesel,
+    isPeselConfirmed: isPeselConfirmed,
+  };
 });

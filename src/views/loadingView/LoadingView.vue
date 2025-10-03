@@ -21,7 +21,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="w-144">
+  <div class="w-144 max-w-[90%]">
     <h2 class="text-xl sm:text-3xl text-center mb-4">
       {{ currentStep?.message }}
     </h2>

@@ -5,26 +5,29 @@ import { useAppStore } from '@/stores/appStore.ts';
 
 const rowsNumber = 15;
 
-const pesels = ref<Array<Array<{
-  pesel: string,
-  id: number
-}>>>(Array.from({length: rowsNumber}, () => []));
+const pesels = ref<
+  Array<
+    Array<{
+      pesel: string;
+      id: number;
+    }>
+  >
+>(Array.from({ length: rowsNumber }, () => []));
 
 let currentId = 0;
 function createNewNumbers() {
-
   const id = currentId++;
 
-  for (const innerArr of pesels.value){
-    innerArr.unshift({ pesel: rand11(), id: id});
+  for (const innerArr of pesels.value) {
+    innerArr.unshift({ pesel: rand11(), id: id });
 
     setTimeout(() => {
-      const index = innerArr.findIndex(item => item.id === id);
+      const index = innerArr.findIndex((item) => item.id === id);
       if (index !== -1) innerArr.splice(index, 1);
-    }, 10000)
+    }, 10000);
   }
 
-  setTimeout(createNewNumbers, 800);
+  setTimeout(createNewNumbers, 1200);
 }
 
 function onPeselClicked(pesel: string) {
@@ -62,7 +65,7 @@ onMounted(() => {
 
 @keyframes moveRight {
   from {
-    left: -10vw;
+    left: -15vw;
   }
   to {
     left: 100vw;
@@ -75,10 +78,10 @@ onMounted(() => {
 
 @keyframes moveLeft {
   from {
-    left: 100vw
+    left: 100vw;
   }
   to {
-    left: -10vw
+    left: -15vw;
   }
 }
 </style>
