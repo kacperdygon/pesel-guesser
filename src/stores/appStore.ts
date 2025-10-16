@@ -13,7 +13,7 @@ export interface FormData {
 }
 
 export const useAppStore = defineStore('app', () => {
-  const currentViewString = ref('form');
+  const currentViewString = ref('list');
   const currentView = computed(() => {
     switch (currentViewString.value) {
       case 'form':

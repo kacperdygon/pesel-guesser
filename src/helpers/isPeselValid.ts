@@ -9,7 +9,5 @@ export function isPeselValid(pesel: string): boolean {
 
   const checksum = getPeselChecksum(first10);
 
-  console.log(checksum);
-
   return checksum === Number(pesel[10]);
 }
