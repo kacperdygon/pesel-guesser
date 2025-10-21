@@ -21,10 +21,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="w-144 max-w-[90%]">
-    <h2 class="text-xl sm:text-3xl text-center mb-4">
-      {{ currentStep?.message }}
-    </h2>
-    <ProgressBar :percentage="currentStep ? currentStep.percentage : 0" />
+  <div class="h-full flex flex-col justify-center items-center">
+    <div class="w-144 max-w-[90%]">
+      <h2 class="text-xl sm:text-3xl text-center mb-4">
+        {{ currentStep?.message }}
+      </h2>
+      <ProgressBar :percentage="currentStep ? currentStep.percentage : 0" />
+    </div>
   </div>
 </template>

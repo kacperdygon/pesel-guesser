@@ -1,4 +1,4 @@
-import { type FormData } from '@/stores/appStore';
+import { type Payload } from '@/stores/appStore';
 
 export function getPeselChecksum(pesel: string): number {
   const weights = [1, 3, 7, 9, 1, 3, 7, 9, 1, 3];
@@ -11,13 +11,13 @@ export function getPeselChecksum(pesel: string): number {
   return (10 - (sum % 10)) % 10;
 }
 
-export function getPesel(formData: FormData): string {
-  const specialMessage = checkForSpecialDateMessages(formData.date!);
+export function calculatePesel(payload: Payload): string {
+  const specialMessage = checkForSpecialDateMessages(payload.date!);
   if (specialMessage) return specialMessage;
 
-  let pesel = getPeselDatePart(formData.date!);
+  let pesel = getPeselDatePart(payload.date!);
 
-  pesel += getPeselRandomPart(formData.gender);
+  pesel += getPeselRandomPart(payload.gender);
 
   pesel += getPeselChecksum(pesel).toString();
 
@@ -69,5 +69,5 @@ function checkForSpecialDateMessages(date: Date): string | null {
 }
 
 export function rand11() {
-  return Array.from({length: 11}, () => Math.floor(Math.random() * 10)).join('');
+  return Array.from({ length: 11 }, () => Math.floor(Math.random() * 10)).join('');
 }

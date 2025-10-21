@@ -8,8 +8,15 @@ const emit = defineEmits<{
   (e: 'numberClicked', value: string): void;
 }>();
 
-function rand11() {
-  return Array.from({ length: 11 }, () => Math.floor(Math.random() * 10)).join('');
+const props = defineProps<{
+  randomString: () => string;
+}>();
+
+function randomArrayPair() {
+  return {
+    firstArray: Array.from({ length: arrayLength }, () => props.randomString()),
+    secondArray: Array.from({ length: arrayLength }, () => props.randomString()),
+  };
 }
 
 const arrays = ref<
@@ -39,19 +46,11 @@ function shiftArrays(
   invert: boolean,
   movingLeft: boolean,
 ) {
-  let shouldInvert: boolean;
+  const shouldInvert = movingLeft ? !invert : invert;
 
-  if (movingLeft) {
-    shouldInvert = !invert;
-  } else {
-    shouldInvert = invert;
-  }
-
-  if (shouldInvert) {
-    arrayPair.firstArray = Array.from({ length: arrayLength }, () => rand11());
-  } else {
-    arrayPair.secondArray = Array.from({ length: arrayLength }, () => rand11());
-  }
+  if (shouldInvert)
+    arrayPair.firstArray = Array.from({ length: arrayLength }, () => props.randomString());
+  else arrayPair.secondArray = Array.from({ length: arrayLength }, () => props.randomString());
 }
 
 function invertDivs(target: HTMLElement, invert: boolean) {
@@ -63,13 +62,13 @@ function invertDivs(target: HTMLElement, invert: boolean) {
 }
 
 onMounted(() => {
-  window.addEventListener('resize', resetAnimations);
-  resetAnimations();
+  window.addEventListener('resize', reloadAnimations);
+  reloadAnimations();
 });
 
 const containerRef = ref<HTMLElement | null>(null);
 
-function resetAnimations() {
+function reloadAnimations() {
   if (!containerRef.value) return;
 
   const containerWidth = containerRef.value.clientWidth;
@@ -86,12 +85,7 @@ function resetAnimations() {
 
   const duration = containerWidth / 140;
 
-  arrays.value = Array.from({ length: parentArrayLength }, () => {
-    return {
-      firstArray: Array.from({ length: arrayLength }, () => rand11()),
-      secondArray: Array.from({ length: arrayLength }, () => rand11()),
-    };
-  });
+  arrays.value = Array.from({ length: parentArrayLength }, randomArrayPair);
 
   nextTick(() => {
     const elements = document.querySelectorAll('.move');
