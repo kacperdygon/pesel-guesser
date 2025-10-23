@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { fireConfetti } from '@/helpers/fireConfetti';
 import { useAppStore } from '@/stores/appStore';
+import { usePeselStore } from '@/stores/peselStore';
 import { onMounted, ref } from 'vue';
 
-const { setCurrentView, pesel, isPeselConfirmed } = useAppStore();
+const { setCurrentView } = useAppStore();
+const { pesel, isPeselConfirmed, resetData } = usePeselStore();
 
 const errorMessage = ref('');
 
@@ -36,7 +38,7 @@ onMounted(fireConfetti);
         @click="
           () => {
             setCurrentView('form');
-            useAppStore().resetData();
+            resetData();
           }
         "
       >

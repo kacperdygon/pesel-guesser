@@ -3,13 +3,15 @@ import FlowingNumbers from '@/components/FlowingNumbers.vue';
 import { useAppStore } from '@/stores/appStore';
 import { getRandomValidPesel } from '@/helpers/getRandomValidPesel';
 import { calculatePesel } from '@/helpers/calculatePesel';
+import { usePeselStore } from '@/stores/peselStore';
 
-const store = useAppStore();
-const { wrongData, formData } = store;
+const appStore = useAppStore();
+const peselStore = usePeselStore();
+const { wrongData, formData } = peselStore;
 
 function onNumberClicked(number: string) {
-  store.pesel = number;
-  store.setCurrentView('confirm');
+  peselStore.pesel = number;
+  appStore.setCurrentView('confirm');
 }
 </script>
 

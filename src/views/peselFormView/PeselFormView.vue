@@ -3,6 +3,7 @@ import { useAppStore } from '@/stores/appStore';
 import { ref } from 'vue';
 import { type Payload } from '@/stores/appStore';
 import { calculatePesel } from '@/helpers/calculatePesel';
+import { usePeselStore } from '@/stores/peselStore';
 
 const formData = ref<Payload>({
   date: undefined,
@@ -11,14 +12,15 @@ const formData = ref<Payload>({
 
 const errorMessage = ref<string>('');
 
-const store = useAppStore();
+const appStore = useAppStore();
+const peselStore = usePeselStore();
 
 function handleSubmit() {
   if (formData.value.date && isDateValid(formData.value.date)) {
-    store.setCurrentView('loading');
-    store.setFormData(formData.value);
+    appStore.setCurrentView('loading');
+    peselStore.setFormData(formData.value);
 
-    store.pesel = calculatePesel(formData.value);
+    peselStore.pesel = calculatePesel(formData.value);
   } else {
     errorMessage.value = 'Enter a valid date dumbass';
   }
@@ -29,14 +31,14 @@ function isDateValid(date: Date): boolean {
 }
 
 function onShowPolicy() {
-  store.wrongData = false;
-  store.setCurrentView('policy');
+  peselStore.wrongData = false;
+  appStore.setCurrentView('policy');
 }
 </script>
 
 <template>
   <div class="h-full flex flex-col justify-center gap-4">
-    <h1 class="text-4xl sm:text-6xl text-center" v-if="!store.wrongData">Pesel Guesser 😎</h1>
+    <h1 class="text-4xl sm:text-6xl text-center" v-if="!peselStore.wrongData">Pesel Guesser 😎</h1>
     <h1 class="text-3xl sm:text-4xl text-center" v-else>
       Our
       <button class="cursor-pointer text-blue-600" @click="onShowPolicy">policy</button>

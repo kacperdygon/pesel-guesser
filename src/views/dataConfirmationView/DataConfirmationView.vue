@@ -1,16 +1,18 @@
 <script setup lang="ts">
 import { useAppStore } from '@/stores/appStore.ts';
+import { usePeselStore } from '@/stores/peselStore';
 
-const store = useAppStore();
+const appStore = useAppStore();
+const peselStore = usePeselStore();
 
 function onDecline() {
-  store.wrongData = true;
-  store.setCurrentView('form');
+  peselStore.wrongData = true;
+  appStore.setCurrentView('form');
 }
 
 function onConfirm() {
-  store.wrongData = false;
-  store.setCurrentView('hint');
+  peselStore.wrongData = false;
+  appStore.setCurrentView('hint');
 }
 </script>
 

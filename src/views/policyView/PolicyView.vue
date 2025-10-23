@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { useAppStore } from '@/stores/appStore';
+import { usePeselStore } from '@/stores/peselStore';
 
-const { resetData, setCurrentView } = useAppStore();
+const { setCurrentView } = useAppStore();
+const { resetData } = usePeselStore();
 
 function onReturn() {
   resetData();

@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { useAppStore } from '@/stores/appStore.ts';
+import { usePeselStore } from '@/stores/peselStore';
 
-const { pesel, setCurrentView } = useAppStore();
+const { setCurrentView } = useAppStore();
+const { pesel } = usePeselStore();
 </script>
 
 <template>
@@ -24,7 +26,7 @@ const { pesel, setCurrentView } = useAppStore();
         @click="
           () => {
             setCurrentView('result');
-            useAppStore().isPeselConfirmed = true;
+            usePeselStore().isPeselConfirmed = true;
           }
         "
       >

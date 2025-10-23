@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { isPeselValid } from '@/helpers/isPeselValid';
 import { useAppStore } from '@/stores/appStore';
+import { usePeselStore } from '@/stores/peselStore';
 import { ref } from 'vue';
 
 const headerTextIndex = ref(0);
@@ -14,11 +15,12 @@ function onSubmit() {
     return;
   }
 
-  const store = useAppStore();
+  const appStore = useAppStore();
+  const peselStore = usePeselStore();
   errorMessage.value = '';
-  store.pesel = peselInput.value;
-  store.isPeselConfirmed = true;
-  store.setCurrentView('loading');
+  peselStore.pesel = peselInput.value;
+  peselStore.isPeselConfirmed = true;
+  appStore.setCurrentView('loading');
 }
 
 const headerTextOptions = [
