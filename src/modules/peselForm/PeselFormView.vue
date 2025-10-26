@@ -2,7 +2,7 @@
 import { useAppStore } from '@/stores/appStore';
 import { ref } from 'vue';
 import { type Payload } from '@/stores/appStore';
-import { calculatePesel } from '@/helpers/calculatePesel';
+import { calculatePesel } from '@/utils/pesel/calculatePesel';
 import { usePeselStore } from '@/stores/peselStore';
 
 const formData = ref<Payload>({

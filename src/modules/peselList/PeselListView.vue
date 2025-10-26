@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import FlowingNumbers from '@/components/FlowingNumbers.vue';
+import FlowingNumbers from '@/modules/peselList/FlowingNumbers.vue';
 import { useAppStore } from '@/stores/appStore';
-import { getRandomValidPesel } from '@/helpers/getRandomValidPesel';
-import { calculatePesel } from '@/helpers/calculatePesel';
+import { getRandomValidPesel } from '@/utils/pesel/getRandomValidPesel';
+import { calculatePesel } from '@/utils/pesel/calculatePesel';
 import { usePeselStore } from '@/stores/peselStore';
 
 const appStore = useAppStore();

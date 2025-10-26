@@ -12,10 +12,12 @@ export function getPeselChecksum(pesel: string): number {
 }
 
 export function calculatePesel(payload: Payload): string {
-  const specialMessage = checkForSpecialDateMessages(payload.date!);
+  if (!payload.date) throw new Error('Date is null');
+
+  const specialMessage = checkForSpecialDateMessages(payload.date);
   if (specialMessage) return specialMessage;
 
-  let pesel = getPeselDatePart(payload.date!);
+  let pesel = getPeselDatePart(payload.date);
 
   pesel += getPeselRandomPart(payload.gender);
 

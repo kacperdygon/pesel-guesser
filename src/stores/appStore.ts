@@ -1,14 +1,14 @@
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
-import PeselFormView from '@/views/peselFormView/PeselFormView.vue';
-import PeselResultView from '@/views/peselResultView/PeselResultView.vue';
-import LoadingView from '@/views/loadingView/LoadingView.vue';
-import HintView from '@/views/hintView/HintView.vue';
-import PeselListView from '@/views/peselListView/PeselListView.vue';
-import PeselConfirmationView from '@/views/peselConfirmationView/PeselConfirmationView.vue';
-import ConfirmDateView from '@/views/dataConfirmationView/DataConfirmationView.vue';
-import PolicyView from '@/views/policyView/PolicyView.vue';
-import WordleView from '@/views/wordleView/WordleView.vue';
+import PeselFormView from '@/modules/peselForm/PeselFormView.vue';
+import PeselResultView from '@/modules/peselResult/PeselResultView.vue';
+import LoadingView from '@/modules/loading/LoadingView.vue';
+import HintView from '@/modules/hint/HintView.vue';
+import PeselListView from '@/modules/peselList/PeselListView.vue';
+import PeselConfirmationView from '@/modules/peselConfirmation/PeselConfirmationView.vue';
+import ConfirmDateView from '@/modules/dataConfirmation/DataConfirmationView.vue';
+import PolicyView from '@/modules/policy/PolicyView.vue';
+import WordleView from '@/modules/wordle/WordleView.vue';
 
 export interface Payload {
   date?: Date;

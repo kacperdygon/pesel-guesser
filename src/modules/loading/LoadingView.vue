@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import ProgressBar from '@/components/ProgressBar.vue';
+import ProgressBar from '@/modules/loading/ProgressBar.vue';
 import { loadingStepMessages } from '@/data';
-import { shuffleLoadingSteps } from '@/helpers/shuffleLoadingSteps';
-import { useLoadingSteps } from '@/helpers/useLoadingSteps';
+import { shuffleLoadingSteps } from '@/modules/loading/shuffleLoadingSteps';
+import { useLoadingSteps } from '@/modules/loading/useLoadingSteps';
 import { useAppStore } from '@/stores/appStore';
 import { onMounted, watch } from 'vue';
 

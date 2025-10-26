@@ -1,4 +1,5 @@
-import { calculatePesel } from '@/helpers/calculatePesel';
+import { calculatePesel } from '@/utils/pesel/calculatePesel';
+import { getRandomValidPesel } from '@/utils/pesel/getRandomValidPesel';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
@@ -19,16 +20,8 @@ export const usePeselStore = defineStore('pesel', () => {
   const wrongData = ref<boolean>(false);
 
   function getRandomFormDataPesel() {
-    return calculatePesel(formData.value);
-  }
-
-  function getRandomPeselWithRegex(regex: RegExp) {
-    let pesel;
-    do {
-      pesel = getRandomFormDataPesel();
-    } while (!regex.test(pesel));
-
-    return pesel;
+    if (formData.value.date && formData.value.gender) return calculatePesel(formData.value);
+    else return getRandomValidPesel();
   }
 
   function resetData() {
@@ -46,6 +39,5 @@ export const usePeselStore = defineStore('pesel', () => {
     wrongData,
     resetData,
     getRandomFormDataPesel,
-    getRandomPeselWithRegex,
   };
 });

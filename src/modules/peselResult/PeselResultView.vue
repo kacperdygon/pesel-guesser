@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { fireConfetti } from '@/helpers/fireConfetti';
+import { fireConfetti } from '@/modules/peselResult/fireConfetti';
 import { useAppStore } from '@/stores/appStore';
 import { usePeselStore } from '@/stores/peselStore';
 import { onMounted, ref } from 'vue';

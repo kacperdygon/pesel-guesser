@@ -10,16 +10,11 @@ export interface WordleFieldNullable {
   changeable: boolean;
 }
 
-export function getWordleRegex(
-  fieldsNullable: WordleFieldNullable[],
-  regexArr: string[] = [],
-): string[] {
+export function getWordleRegex(fields: WordleField[], regexArr: string[] = []): string[] {
   if (regexArr.length === 0)
     regexArr = Array.from({ length: 11 }, () => {
       return '[0123456789]';
     });
-
-  const fields = wordleFieldNullableToNotNullable(fieldsNullable);
 
   regexArr = handleCorrectFields(fields, regexArr);
 
@@ -115,7 +110,7 @@ export function verifyFirstSix(pesel: string, regexArr: string[]): boolean {
   return true;
 }
 
-function wordleFieldNullableToNotNullable(
+export function wordleFieldNullableToNotNullable(
   wordleFieldsNullable: WordleFieldNullable[],
 ): WordleField[] {
   const wordleFields = new Array<WordleField>();
@@ -137,4 +132,63 @@ export function getRegexFromStringArray(regexStringArr: string[]) {
   const regex = new RegExp(`^${regexString}$`);
 
   return regex;
+}
+
+export function getMisplacedNumbersCounts(
+  fields: WordleField[],
+  previousCounts: Record<string, number> = {},
+): Record<string, number> {
+  const counts: Record<string, number> = {};
+
+  for (const field of fields) {
+    if (field.state === DigitState.NotPresent) continue;
+
+    counts[field.digit] = (counts[field.digit] ?? 0) + 1;
+  }
+
+  const finalCounts: Record<string, number> = {};
+
+  const allDigits = new Set([...Object.keys(previousCounts), ...Object.keys(counts)]);
+  for (const digit of allDigits) {
+    finalCounts[digit] = Math.max(previousCounts[digit] ?? 0, counts[digit] ?? 0);
+  }
+
+  return finalCounts;
+}
+
+export function getRandomPeselWithRegexAndCounts(
+  getRandomPesel: () => string,
+  regex: RegExp,
+  counts: Record<string, number>,
+): string {
+  let pesel;
+
+  do {
+    pesel = getRandomPesel();
+    console.log('skibidi');
+  } while (!testPesel(pesel, regex, counts));
+
+  return pesel;
+}
+
+export function testPesel(pesel: string, regex: RegExp, counts: Record<string, number>): boolean {
+  if (!regex.test(pesel)) return false;
+
+  // Liczymy cyfry w peselu
+  const peselCounts: Record<string, number> = {};
+  for (const digit of pesel) {
+    peselCounts[digit] = (peselCounts[digit] ?? 0) + 1;
+  }
+
+  // Sprawdzamy, czy pesel ma co najmniej tyle cyfr, ile w counts
+  for (const digit in counts) {
+    if ((peselCounts[digit] ?? 0) < counts[digit]) {
+      return false;
+    }
+  }
+
+  console.log(pesel);
+  console.log(counts);
+
+  return true;
 }

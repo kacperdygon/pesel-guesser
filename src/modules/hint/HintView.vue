@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { isPeselValid } from '@/helpers/isPeselValid';
+import { isPeselValid } from '@/utils/pesel/isPeselValid';
 import { useAppStore } from '@/stores/appStore';
 import { usePeselStore } from '@/stores/peselStore';
 import { ref } from 'vue';

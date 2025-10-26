@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import {
   DigitState,
+  getMisplacedNumbersCounts,
+  getRandomPeselWithRegexAndCounts,
   getRegexFromStringArray,
   getWordleRegex,
+  wordleFieldNullableToNotNullable,
   type WordleFieldNullable,
-} from '@/helpers/wordle';
+} from '@/modules/wordle/utils';
+import { useAppStore } from '@/stores/appStore';
 import { usePeselStore } from '@/stores/peselStore';
 import { onMounted, ref } from 'vue';
 
@@ -24,16 +28,28 @@ let currentRow = -1;
 
 const peselStore = usePeselStore();
 
-function onNext() {
-  let regexArr: string[] | undefined = undefined;
+let regexArr: string[] | undefined = undefined;
+let counts: Record<string, number> = {};
 
-  if (currentRow != -1) regexArr = getWordleRegex(fields.value[currentRow]);
-  console.log(regexArr);
+function onNext() {
+  if (currentRow != -1) {
+    if (checkForWinCondition()) {
+      endWordle(true);
+      return;
+    }
+
+    const notNullFields = wordleFieldNullableToNotNullable(fields.value[currentRow]);
+
+    if (currentRow != -1) regexArr = getWordleRegex(notNullFields, regexArr);
+    console.log(regexArr);
+
+    counts = getMisplacedNumbersCounts(notNullFields, counts);
+  }
 
   currentRow++;
 
   if (currentRow === fields.value.length) {
-    endWordle();
+    endWordle(false);
     return;
   }
 
@@ -41,7 +57,7 @@ function onNext() {
 
   if (regexArr) {
     const regex = getRegexFromStringArray(regexArr);
-    newPesel = peselStore.getRandomPeselWithRegex(regex);
+    newPesel = getRandomPeselWithRegexAndCounts(peselStore.getRandomFormDataPesel, regex, counts);
   } else {
     newPesel = peselStore.getRandomFormDataPesel();
   }
@@ -61,7 +77,29 @@ function onNext() {
   }
 }
 
-function endWordle() {}
+function endWordle(isWon: boolean) {
+  const appStore = useAppStore();
+  const peselStore = usePeselStore();
+
+  let pesel = '';
+
+  for (const field of fields.value[currentRow]) {
+    pesel += field.digit;
+  }
+
+  if (isWon) {
+    peselStore.pesel = pesel;
+    appStore.setCurrentView('result');
+  }
+}
+
+function checkForWinCondition(): boolean {
+  for (const field of fields.value[currentRow]) {
+    if (field.state !== DigitState.Correct) return false;
+  }
+
+  return true;
+}
 
 function swapState(index: number) {
   const field = fields.value[currentRow][index];
@@ -79,10 +117,7 @@ function swapState(index: number) {
 }
 
 onMounted(() => {
-  peselStore.setFormData({
-    date: new Date('2008-03-21'),
-    gender: 'man',
-  });
+  usePeselStore().setFormData({ date: new Date('2008-03-21'), gender: 'man' });
   onNext();
 });
 </script>
